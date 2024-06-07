@@ -1,3 +1,5 @@
+// this file does nothing yet (just initialises SDL & window and input handler), I'm still writing classes and stuff
+
 #include <iostream>
 
 #include <SDL2/SDL.h>
@@ -5,6 +7,7 @@
 #include <GL/glu.h>
 
 #include "input_handler.hpp"
+#include "vec3f.hpp"
 
 #define WIDTH 500
 #define HEIGHT 500
@@ -20,7 +23,7 @@ int main(int argc, char **argv) {
     InputHandler handler;
 
     while (true) {
-        handler.handle();
+        handler.handle();    
     }
 
     SDL_DestroyWindow(window);
