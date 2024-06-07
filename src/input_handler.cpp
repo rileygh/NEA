@@ -7,8 +7,6 @@ InputHandler::InputHandler() {
     key_states.clear();
 };
 
-InputHandler::~InputHandler() {}
-
 void InputHandler::handle() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -29,5 +27,5 @@ void InputHandler::handle() {
 }
 
 bool InputHandler::key_pressed(SDL_Keycode key) {
-    return key_states[key]; // TODO: case if key hasnt been pressed yet
+    return key_states[key];
 }

@@ -7,7 +7,6 @@
 class InputHandler {
     public:
     InputHandler();
-    ~InputHandler();
 
     void handle();
     bool key_pressed(SDL_Keycode key);

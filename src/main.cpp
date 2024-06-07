@@ -17,10 +17,9 @@ int main(int argc, char **argv) {
 
     SDL_Window *window = SDL_CreateWindow("meow", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
 
-    bool mainloop = true;
     InputHandler handler;
 
-    while (mainloop) {
+    while (true) {
         handler.handle();
     }
 
