@@ -29,5 +29,5 @@ void InputHandler::handle() {
 }
 
 bool InputHandler::key_pressed(SDL_Keycode key) {
-    return key_states[key];
+    return key_states[key]; // TODO: case if key hasnt been pressed yet
 }
