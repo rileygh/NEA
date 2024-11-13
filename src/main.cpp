@@ -14,7 +14,7 @@
 #define HEIGHT 500
 
 int main(int argc, char **argv) {
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "test", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(960, 540, "test", nullptr, nullptr);
     if (window == nullptr) {
         return 1;
     }
