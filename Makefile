@@ -14,20 +14,27 @@ include/imgui/imgui_widgets.cpp \
 include/imgui/imgui.cpp
 
 # find all .cpp files in SRC_DIR
-SRCS = $(wildcard $(SRC_DIR)/*.cpp) $(IMGUI_SRCS)
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 
-# generate object files from source files
-OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
+# generate object files from source files in SRC_DIR
+SRCS_OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 
-# default target compile and link
+# generate object files from ImGui source files
+IMGUI_OBJS = $(IMGUI_SRCS:include/imgui/%.cpp=$(BUILD_DIR)/%.o)
+
+# combine both object file lists
+OBJS = $(SRCS_OBJS) $(IMGUI_OBJS)
+
+# default target: compile and link
 $(EXEC): $(OBJS)
 	$(CXX) $(OBJS) -o $(EXEC) $(LDFLAGS)
 
-# compile source files into object files
+# compile source files from SRC_DIR/*.cpp into object files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
-$(BUILD_DIR)/%.o: $(IMGUI_SRCS)
+# compile ImGui source files into object files
+$(BUILD_DIR)/%.o: include/imgui/%.cpp
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 # clean up build files
