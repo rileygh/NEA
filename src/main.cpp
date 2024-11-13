@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
             std::cout << "silly";
         }
     }
-
+    // TODO: render
 
     // destroy frame & context
     ImGui_ImplOpenGL3_Shutdown();
