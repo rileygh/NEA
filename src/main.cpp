@@ -14,10 +14,11 @@
 #define HEIGHT 500
 
 int main(int argc, char **argv) {
+    if (!glfwInit()) { return 1; }
+
     GLFWwindow* window = glfwCreateWindow(1280, 720, "test", nullptr, nullptr);
-    if (window == nullptr) {
-        return 1;
-    }
+    if (window == nullptr) { return 1; }
+
     glfwMakeContextCurrent(window); // focus
 
     IMGUI_CHECKVERSION();
@@ -37,16 +38,28 @@ int main(int argc, char **argv) {
         ImGui::NewFrame();
 
         ImGui::Begin("Settings");
-        if (ImGui::Button("be silly")) {
-            std::cout << "silly";
-        }
-    }
+        
+        ImGui::End();
 
+        ImGui::Render();
+
+        int w, h;
+        glfwGetFramebufferSize(window, &w, &h);
+        glViewport(0, 0, w, h);
+        glClearColor(0.45, 0.55, 0.65, 1);
+        glClear(GL_COLOR_BUFFER_BIT);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        glfwSwapBuffers(window);
+    }
 
     // destroy frame & context
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
     
     return 0;
 }
