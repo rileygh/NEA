@@ -10,14 +10,17 @@
 
 #include "vec3f.h"
 
-#define WIDTH 500
-#define HEIGHT 500
+#define WIDTH 960
+#define HEIGHT 540
 
 int main(int argc, char **argv) {
-    GLFWwindow* window = glfwCreateWindow(960, 540, "test", nullptr, nullptr);
-    if (window == nullptr) {
-        return 1;
-    }
+    float temp_fov = 0.0;
+
+    if (!glfwInit()) { return 1; }
+
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "test", nullptr, nullptr);
+    if (window == nullptr) { return 1; }
+
     glfwMakeContextCurrent(window); // focus
 
     IMGUI_CHECKVERSION();
@@ -37,7 +40,11 @@ int main(int argc, char **argv) {
         ImGui::NewFrame();
 
         ImGui::Begin("Settings");
-        
+        ImGui::Text("some placeholder text...");
+        ImGui::SliderFloat("FOV", &temp_fov, 90.0, 160.0); // test, won't keep this var
+        ImGui::End();
+
+        ImGui::Begin("Scene");
         ImGui::End();
 
         ImGui::Render();
