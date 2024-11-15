@@ -21,6 +21,10 @@ int main(int argc, char **argv) {
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "test", nullptr, nullptr);
     if (window == nullptr) { return 1; }
 
+    if (!glfwInit()) { return 1; }
+    GLFWwindow* window = glfwCreateWindow(1280, 720, "test", nullptr, nullptr);
+    
+    if (window == nullptr) { return 1; }
     glfwMakeContextCurrent(window); // focus
 
     IMGUI_CHECKVERSION();
