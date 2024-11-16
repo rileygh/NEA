@@ -1,5 +1,3 @@
-// this file does nothing yet
-
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
@@ -8,14 +6,10 @@
 
 #include <iostream>
 
-#include "vec3f.h"
-
 #define WIDTH 960
 #define HEIGHT 540
 
 int main(int argc, char **argv) {
-    float temp_fov = 0.0;
-
     if (!glfwInit()) { return 1; }
 
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "test", nullptr, nullptr);
@@ -41,11 +35,6 @@ int main(int argc, char **argv) {
         ImGui::NewFrame();
 
         ImGui::Begin("Settings");
-        ImGui::Text("some placeholder text...");
-        ImGui::SliderFloat("FOV", &temp_fov, 90.0, 160.0); // test, won't keep this var
-        ImGui::End();
-
-        ImGui::Begin("Scene");
         ImGui::End();
 
         ImGui::Render();
@@ -56,7 +45,7 @@ int main(int argc, char **argv) {
         glClearColor(0.45, 0.55, 0.65, 1);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+        
         glfwSwapBuffers(window);
     }
 

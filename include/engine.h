@@ -1,14 +1,18 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include "ray.h"
 #include "vec3f.h"
-#include "camera.h"
+#include "ray.h"
+
+#include <map>
 
 class Engine {
     public:
-    Vec3f trace_ray(Ray ray, Camera camera); // returns intersection pos
-    Vec3f get_intersection_colour(Vec3f intersection, Camera camera);
+    Vec3f get_pixel_coords(Vec3f camera_pos, float fov, int row, int col);
+    void render();
+
+    private:
+    float fov;
 };
 
 #endif

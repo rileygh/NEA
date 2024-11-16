@@ -1,15 +1,19 @@
 #ifndef RAY_H
 #define RAY_H
 
-#include <vec3f.h>
+#include "vec3f.h"
+
+enum RayType {
+    PRIMARY,
+    SHADOW,
+    REFLECTION,
+    REFRACTION
+};
 
 // ray stores a point of origin and a unit vector which indicates the direction of the ray
-class Ray {
-    public:
-    Ray(Vec3f orig, Vec3f dir) : origin(orig), direction(dir) {};
-
-    private:
+struct Ray {
     Vec3f origin, direction;
+    RayType ray_type;
 };
 
 #endif
