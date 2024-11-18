@@ -14,7 +14,7 @@ class Engine {
     public:
     #define ASPECT_RATIO width / height;
 
-    Vec3f get_pixel_coords(Vec3f camera_pos, float fov, int row, int col) {
+    Vec3f get_pixel_coords(Vec3f camera_pos, int row, int col) {
         float x = (2 * ((row + 0.5f) / width) - 1) * tan(radians(fov / 2)) * ASPECT_RATIO;
         float y = (1 - 2 * (col + 0.5f) / height) * tan(radians(fov / 2));
         return Vec3f(x, y, -1); // camera starts being aligned with -z axis
