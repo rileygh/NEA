@@ -1,4 +1,6 @@
 #include "vec3f.h"
+#include "matrix44f.h"
+
 #include <cmath>
 
 Vec3f Vec3f::norm() const {
@@ -22,6 +24,18 @@ std::ostream& operator<<(std::ostream& o, const Vec3f& v) {
     o << "Vec<" << v.x() << ", " << v.y() << ", " << v.z() << '>';
     return o;
 };
+
+bool Vec3f::operator==(const Vec3f& other) {
+    return x() == other.x() && y() == other.y() && z() == other.z();
+}
+
+Vec3f Vec3f::mult_with_matrix44f(Matrix44f& matrix) {
+    Vec3f result;
+    result.set_x(x() * matrix[0][0] + y() * matrix[1][0] + z() * matrix[2][0] + matrix[3][0]);
+    result.set_y(x() * matrix[0][1] + y() * matrix[1][1] + z() * matrix[2][1] + matrix[3][1]);
+    result.set_z(x() * matrix[0][2] + y() * matrix[1][2] + z() * matrix[2][2] + matrix[3][2]);
+    return result;
+}
 
 // getters
 float Vec3f::x() const { return coords[0]; }

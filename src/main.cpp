@@ -6,6 +6,9 @@
 
 #include <iostream>
 
+#include "vec3f.h"
+#include "matrix44f.h"
+
 #define WIDTH 960
 #define HEIGHT 540
 
@@ -35,6 +38,14 @@ int main(int argc, char **argv) {
         ImGui::NewFrame();
 
         ImGui::Begin("Settings");
+        if (ImGui::Button("Test")) {
+            Matrix44f test_m(0.718762, 0.615033, -0.324214, 0, -0.393732, 0.744416, 0.539277, 0, 0.573024, -0.259959, 0.777216, 0, 0.526967, 1.254234, -2.53215, 1);
+            Vec3f test_local(-0.5, 0.5, -0.5);
+            Vec3f test_world = test_local.mult_with_matrix44f(test_m);
+            std::cerr << test_world << '\n';
+            // should return -0.315792, 1.4489, -2.48901
+        }
+        
         ImGui::End();
 
         ImGui::Render();
