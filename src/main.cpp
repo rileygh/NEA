@@ -44,8 +44,10 @@ int main(int argc, char **argv) {
             Vec3f test_world = test_local.mult_with_matrix44f(test_m);
             std::cerr << test_world << '\n';
             // should return -0.315792, 1.4489, -2.48901
+            Matrix44f test_m_inverse = test_m.inverse();
+            Vec3f test_local_reverse = test_world.mult_with_matrix44f(test_m_inverse);
+            std::cerr << test_local_reverse << '\n';
         }
-        
         ImGui::End();
 
         ImGui::Render();

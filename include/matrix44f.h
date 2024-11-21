@@ -20,8 +20,13 @@ class Matrix44f {
     ) 
     : elements{{a, b, c, d}, {e, f, g, h}, {i, j, k, l}, {m, n, o, p}} {};
 
+    Matrix44f inverse();
+
     // getter
-    const float* operator[](int i) { return elements[i]; };
+    const float* operator[](int i) const { return elements[i]; }
+
+    // setter (returns reference to row)
+    float* operator[](int i) { return elements[i]; };
 
     private:
     float elements[4][4];
