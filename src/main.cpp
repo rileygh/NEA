@@ -57,6 +57,7 @@ int main(int argc, char **argv) {
                 for (int j = 0; j < 4; j++) {
                     std::cerr << test_m_inverse[i][j];
                 }
+                std::cerr << '\n';
             }
         }
 
