@@ -17,7 +17,7 @@ Matrix44f Matrix44f::inverse() {
     }
 
     for (int i = 0; i < 4; i++) {
-        // partial pivoting - largest element in column i
+        // pivoting - largest element in column i
         int row_max = i;
         for (int k = i + 1; k < 4; k++) {
             if (std::abs(aug[k][i]) > std::abs(aug[row_max][i])) {
@@ -52,6 +52,13 @@ Matrix44f Matrix44f::inverse() {
                     aug[j][k] -= factor * aug[i][k];
                 }
             }
+        }
+    }
+
+    // dbg
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 8; j++) {
+            std::cerr << aug[i][j];
         }
     }
 
