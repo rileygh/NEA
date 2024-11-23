@@ -48,18 +48,6 @@ int main(int argc, char **argv) {
             Vec3f test_local_reverse = test_world.mult_with_matrix44f(test_m_inverse);
             std::cerr << test_local_reverse << '\n';
             // should return -0.5, 0.5, -0.5
-        }
-
-        if (ImGui::Button("Test 2")) {
-            Matrix44f test_m(1, 2, 3, 5, 2, 9, 5, 1, 2, 6, 5, 1, 3, 1, 3, 1);
-            Matrix44f test_m_inverse = test_m.inverse();
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    std::cerr << test_m_inverse[i][j];
-                }
-                std::cerr << '\n';
-            }
-        }
 
         ImGui::End();
 
