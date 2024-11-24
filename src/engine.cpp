@@ -24,8 +24,9 @@ Vec3f Engine::get_pixel_coords(Vec3f camera_pos, int row, int col) {
 }
 
 GLubyte* Engine::get_render_data() {
-    for (int row = 0; row < width; row++) {
-        for (int col = 0; col < height; col++) {
+    int c = 0;
+    for (int row = 0; row < height; row++) {
+        for (int col = 0; col < width; col++) {
             // TODO: make the correct ray
             // then trace it
             // and add RGB triplet to image_buffer
@@ -33,7 +34,9 @@ GLubyte* Engine::get_render_data() {
             image_buffer[i] = 255;
             image_buffer[i + 1] = 255;
             image_buffer[i + 2] = 255;
+            c += 1;
         }
+        std::cerr<<c<<'\n';
     }
     return image_buffer;
 }
