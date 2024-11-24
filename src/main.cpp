@@ -1,20 +1,26 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
-
 #include <glfw/glfw3.h>
-
 #include <iostream>
-
 #include "vec3f.h"
 #include "matrix44f.h"
+#include "engine.h"
 
 #define WIDTH 960
 #define HEIGHT 540
 
+
+void glfw_error_callback(int error, const char* description) {
+    std::cerr << "GLFW error: " << error << ": " << description << '\n';
+}
+
 int main(int argc, char **argv) {
+    glfwSetErrorCallback(glfw_error_callback);
+
     if (!glfwInit()) { return 1; }
 
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "test", nullptr, nullptr);
 
     if (window == nullptr) { return 1; }
@@ -30,6 +36,11 @@ int main(int argc, char **argv) {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 460"); // OpenGL v4.6
 
+    Engine engine;
+    engine.set_width(WIDTH);
+    engine.set_height(HEIGHT);
+    engine.allocate_image_buffer();
+    
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents(); // listening for events eg. inputs
 
@@ -38,28 +49,20 @@ int main(int argc, char **argv) {
         ImGui::NewFrame();
 
         ImGui::Begin("Settings");
-        if (ImGui::Button("Test")) {
-            Matrix44f test_m(0.718762, 0.615033, -0.324214, 0, -0.393732, 0.744416, 0.539277, 0, 0.573024, -0.259959, 0.777216, 0, 0.526967, 1.254234, -2.53215, 1);
-            Vec3f test_local(-0.5, 0.5, -0.5);
-            Vec3f test_world = test_local.mult_with_matrix44f(test_m);
-            std::cerr << test_world << '\n';
-            // should return -0.315792, 1.4489, -2.48901
-            Matrix44f test_m_inverse = test_m.inverse();
-            Vec3f test_local_reverse = test_world.mult_with_matrix44f(test_m_inverse);
-            std::cerr << test_local_reverse << '\n';
-            // should return -0.5, 0.5, -0.5
 
         ImGui::End();
 
         ImGui::Render();
 
-        int w, h;
-        glfwGetFramebufferSize(window, &w, &h);
-        glViewport(0, 0, w, h);
+        glViewport(0, 0, WIDTH, HEIGHT);
         glClearColor(0.45, 0.55, 0.65, 1);
         glClear(GL_COLOR_BUFFER_BIT);
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        GLubyte* image_buffer = engine.get_render_data();
+        glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, image_buffer);
         
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         glfwSwapBuffers(window);
     }
 
