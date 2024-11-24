@@ -3,7 +3,6 @@
 
 #include <iostream>
 
-class Matrix44f; // forward declaration to solve circular dependency
 #include "matrix44f.h"
 
 class Vec3f {

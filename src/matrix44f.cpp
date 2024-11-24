@@ -1,6 +1,7 @@
 #include "matrix44f.h"
 
 #include <cmath>
+#include <stdexcept>
 
 // algorithm from https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/matrix-inverse/matrix-inverse.html
 Matrix44f Matrix44f::inverse() {

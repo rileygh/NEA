@@ -5,9 +5,8 @@
 
 #include <glfw/glfw3.h>
 
-#include <map>
 #include <cmath>
-#include <tuple>
+#include <cstdlib>
 
 void Engine::allocate_image_buffer() {
     image_buffer = new GLubyte[width * height * 3];
@@ -24,15 +23,17 @@ Vec3f Engine::get_pixel_coords(Vec3f camera_pos, int row, int col) {
 }
 
 GLubyte* Engine::get_render_data() {
+    GLubyte* pixel = image_buffer;
     for (int row = 0; row < height; row++) {
         for (int col = 0; col < width; col++) {
             // TODO: make the correct ray
             // then trace it
             // and add RGB triplet to image_buffer
-            int i = (row * width + col) * 3;
-            image_buffer[i] = 25;
-            image_buffer[i + 1] = 255;
-            image_buffer[i + 2] = 100;
+            *pixel = std::rand() / (RAND_MAX / 255);
+            *(pixel + 1) = std::rand() / (RAND_MAX / 255);
+            *(pixel + 2) = std::rand() / (RAND_MAX / 255);
+
+            pixel += 3;
         }
     }
     return image_buffer;

@@ -1,9 +1,6 @@
 #ifndef MATRIX44F_H
 #define MATRIX44F_H
 
-class Vec3f; // forward declaration to solve circular dependency
-#include "vec3f.h"
-
 #include <cstring>
 
 class Matrix44f {
