@@ -21,6 +21,7 @@ class Engine {
     Vec2f get_pixel_coords(Vec3f camera_pos, int row, int col) const;
     Vec3f trace(Ray &ray);
     GLubyte* get_render_data();
+    Matrix44f get_camera_to_world_matrix() const;
 
     float get_fov() const;
 

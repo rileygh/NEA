@@ -3,13 +3,20 @@
 
 #include <cmath>
 
+float Vec3f::mag() const {
+    float x = this->x();
+    float y = this->y();
+    float z = this->z();
+
+    return std::sqrt(x * x + y * y + z * z);
+}
+
 Vec3f Vec3f::norm() const {
     // get components
     float x = this->x();
     float y = this->y();
     float z = this->z();
-
-    float mag = std::sqrt(x * x + y * y + z * z); // denominator
+    float mag = this->mag();
 
     if (mag == 0) {
         return Vec3f(); // vector (0, 0, 0) if magnitude is 0 to avoid division by 0 error
@@ -39,6 +46,28 @@ Vec3f Vec3f::mult_with_matrix44f(const Matrix44f& matrix) const {
     result.set_y(x() * matrix[0][1] + y() * matrix[1][1] + z() * matrix[2][1] + matrix[3][1]);
     result.set_z(x() * matrix[0][2] + y() * matrix[1][2] + z() * matrix[2][2] + matrix[3][2]);
     return result;
+}
+
+float Vec3f::dot(const Vec3f& other) const {
+    return x() * other.x() + y() * other.y() + z() * other.z();
+}
+
+Vec3f Vec3f::cross(const Vec3f& other) const {
+    float mag = this->mag();
+    float other_mag = other.mag();
+
+    float dot = this->dot(other);
+
+    float cos_theta = dot / (mag * other_mag);
+    float theta = acos(cos_theta);
+
+    float cross_mag = mag * other_mag * sin(theta);
+
+    return Vec3f(
+        y() * other.z() - z() * other.y(), 
+        z() * other.x() - x() * other.z(),
+        x() * other.y() - y() * other.x()
+    );
 }
 
 // getters

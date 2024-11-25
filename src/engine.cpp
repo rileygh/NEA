@@ -4,6 +4,7 @@
 #include "matrix44f.h"
 #include "ray.h"
 #include "utils.h"
+#include "scene.h"
 
 #include <glfw/glfw3.h>
 
@@ -19,7 +20,7 @@ void Engine::allocate_image_buffer() {
 
 Vec3f Engine::trace(Ray &ray) { // return RGB triplet
     // test
-    return Vec3f(ray.direction.x() * 255, 0, 0);
+    return Vec3f(ray.direction.x() * 255, ray.direction.x() * 255, ray.direction.y() * 255);
 }
 
 Vec2f Engine::get_pixel_coords(Vec3f camera_pos, int row, int col) const {
@@ -64,6 +65,12 @@ GLubyte* Engine::get_render_data() {
         }
     }
     return m_image_buffer;
+}
+
+Matrix44f Engine::get_camera_to_world_matrix() const {
+    return Matrix44f(
+
+    );
 }
 
 float Engine::get_fov() const { return m_fov; }

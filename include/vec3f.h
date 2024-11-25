@@ -10,6 +10,7 @@ class Vec3f {
     Vec3f() : coords{0, 0, 0} {}; // no args interchangable with Vec3f(0, 0, 0)
     Vec3f(float x, float y, float z) : coords{x, y, z} {};
 
+    float mag() const;
     Vec3f norm() const;
 
     // define output operator (debug)
@@ -18,6 +19,8 @@ class Vec3f {
     bool operator==(const Vec3f& other) const;
     Vec3f operator-(const Vec3f& other) const;
 
+    float dot(const Vec3f& other) const;
+    Vec3f cross(const Vec3f& other) const;
     Vec3f mult_with_matrix44f(const Matrix44f& matrix) const;
 
     // getters
