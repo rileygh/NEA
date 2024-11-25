@@ -20,7 +20,6 @@ class Engine {
     void allocate_image_buffer();
     Vec2f get_pixel_coords(Vec3f camera_pos, int row, int col);
     Vec3f trace(Ray ray);
-
     GLubyte* get_render_data();
 
     float get_fov();

@@ -10,6 +10,8 @@
 #include <cstdlib>
 #include <tuple>
 
+#include <omp.h>
+
 void Engine::allocate_image_buffer() {
     m_image_buffer = new GLubyte[m_width * m_height * 3];
 }
@@ -25,6 +27,7 @@ Vec2f Engine::get_pixel_coords(Vec3f camera_pos, int row, int col) {
 }
 
 GLubyte* Engine::get_render_data() {
+    #pragma omp parallel for collapse(2)
     GLubyte* pixel = m_image_buffer;
     for (int row = 0; row < m_height; row++) {
         for (int col = 0; col < m_width; col++) {
@@ -40,7 +43,10 @@ GLubyte* Engine::get_render_data() {
             Vec3f ray_direction = Vec3f(pixel_coords - m_camera.position).norm();
             Ray ray(m_camera.position, ray_direction, PRIMARY);
 
-            std::cerr << ray.origin << " | " << ray.direction << " | " << ray.ray_type << '\n';
+            // #pragma omp critical
+            // {
+            //     std::cerr << ray.origin << " | " << ray.direction << " | " << ray.ray_type << '\n';
+            // }
 
             *pixel = std::rand() / (RAND_MAX / 255);
             *(pixel + 1) = std::rand() / (RAND_MAX / 255);
