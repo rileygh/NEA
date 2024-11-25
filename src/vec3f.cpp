@@ -25,15 +25,15 @@ std::ostream& operator<<(std::ostream& o, const Vec3f& v) {
     return o;
 };
 
-bool Vec3f::operator==(const Vec3f& other) {
+bool Vec3f::operator==(const Vec3f& other) const {
     return x() == other.x() && y() == other.y() && z() == other.z();
 }
 
-Vec3f Vec3f::operator-(const Vec3f& other) {
+Vec3f Vec3f::operator-(const Vec3f& other) const {
     return Vec3f(x() - other.x(), y() - other.y(), z() - other.z());
 }
 
-Vec3f Vec3f::mult_with_matrix44f(Matrix44f& matrix) {
+Vec3f Vec3f::mult_with_matrix44f(const Matrix44f& matrix) const {
     Vec3f result;
     result.set_x(x() * matrix[0][0] + y() * matrix[1][0] + z() * matrix[2][0] + matrix[3][0]);
     result.set_y(x() * matrix[0][1] + y() * matrix[1][1] + z() * matrix[2][1] + matrix[3][1]);

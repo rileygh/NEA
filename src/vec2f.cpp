@@ -6,11 +6,11 @@ std::ostream& operator<<(std::ostream& o, const Vec2f& v) {
     return o;
 };
 
-bool Vec2f::operator==(const Vec2f& other) {
+bool Vec2f::operator==(const Vec2f& other) const {
     return x() == other.x() && y() == other.y();
 }
 
-Vec2f Vec2f::operator-(const Vec2f& other) {
+Vec2f Vec2f::operator-(const Vec2f& other) const {
     return Vec2f(x() - other.x(), y() - other.y());
 }
 

@@ -13,8 +13,8 @@ class Vec2f {
     // define output operator (debug)
     friend std::ostream& operator<<(std::ostream& o, const Vec2f& v);
 
-    bool operator==(const Vec2f& other);
-    Vec2f operator-(const Vec2f& other);
+    bool operator==(const Vec2f& other) const;
+    Vec2f operator-(const Vec2f& other) const;
 
     // getters
     float x() const;

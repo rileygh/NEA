@@ -15,10 +15,10 @@ class Vec3f {
     // define output operator (debug)
     friend std::ostream& operator<<(std::ostream& o, const Vec3f& v);
 
-    bool operator==(const Vec3f& other);
-    Vec3f operator-(const Vec3f& other);
+    bool operator==(const Vec3f& other) const;
+    Vec3f operator-(const Vec3f& other) const;
 
-    Vec3f mult_with_matrix44f(Matrix44f& matrix);
+    Vec3f mult_with_matrix44f(const Matrix44f& matrix) const;
 
     // getters
     float x() const;

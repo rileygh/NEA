@@ -18,11 +18,11 @@ struct Camera {
 class Engine {
     public:
     void allocate_image_buffer();
-    Vec2f get_pixel_coords(Vec3f camera_pos, int row, int col);
-    Vec3f trace(Ray ray);
+    Vec2f get_pixel_coords(Vec3f camera_pos, int row, int col) const;
+    Vec3f trace(Ray &ray);
     GLubyte* get_render_data();
 
-    float get_fov();
+    float get_fov() const;
 
     void set_fov(float fov);
     void set_width(int width);
