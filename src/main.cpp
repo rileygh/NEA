@@ -40,7 +40,8 @@ int main(int argc, char **argv) {
     engine.set_width(WIDTH);
     engine.set_height(HEIGHT);
     engine.allocate_image_buffer();
-    
+    engine.set_defaults();
+
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents(); // listening for events eg. inputs
 
@@ -48,7 +49,7 @@ int main(int argc, char **argv) {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::Begin("Settings");
+        ImGui::Begin("Testing");
 
         ImGui::End();
 
@@ -60,7 +61,7 @@ int main(int argc, char **argv) {
 
         GLubyte* image_buffer = engine.get_render_data();
         glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, image_buffer);
-        
+
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwSwapBuffers(window);
