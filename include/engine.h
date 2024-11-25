@@ -2,33 +2,45 @@
 #define ENGINE_H
 
 #include "vec3f.h"
+#include "vec2f.h"
 #include "ray.h"
 
 #include <glfw/glfw3.h>
 
 #include <map>
+#include <tuple>
+
+struct Camera {
+    Vec3f position;
+    Vec3f direction;
+};
 
 class Engine {
     public:
     void allocate_image_buffer();
-    Vec3f get_pixel_coords(Vec3f camera_pos, int row, int col);
-    Vec3f trace(Ray ray);
-
+    Vec2f get_pixel_coords(Vec3f camera_pos, int row, int col) const;
+    Vec3f trace(Ray &ray);
     GLubyte* get_render_data();
+    Matrix44f get_camera_to_world_matrix() const;
 
-    float get_fov();
+    float get_fov() const;
 
-    void set_fov(float _fov);
-    void set_width(int _width);
-    void set_height(int _height);
+    void set_fov(float fov);
+    void set_width(int width);
+    void set_height(int height);
+    void set_camera_pos(Vec3f position);
+    void set_camera_dir(Vec3f direction);
+
+    void set_defaults();
 
     private:
-    float fov;
-    int width, height;
+    float m_fov;
+    int m_width, m_height;
+    Camera m_camera;
 
-    GLubyte* image_buffer = nullptr; // multiply by 3 as RGB triplets used
+    GLubyte* m_image_buffer = nullptr; // multiply by 3 as RGB triplets used
 
-    std::map<Ray, std::tuple<int, int>> primary_rays;
+    std::map<Ray, std::tuple<int, int>> m_primary_rays;
 };
 
 #endif
