@@ -24,7 +24,7 @@ Vec3f Engine::trace(Ray &ray) { // return RGB triplet
 }
 
 Vec2f Engine::get_pixel_coords(Vec3f camera_pos, int row, int col) const {
-    const float aspect_ratio = 1.0f; static_cast<float>(m_width) / m_height;
+    const float aspect_ratio static_cast<float>(m_width) / m_height;
     // assume camera is at (0, 0, 0) facing (0, 0, -1), then transform results with world to camera matrix
     float x = (2 * ((row + 0.5f) / m_width) - 1)  * tan(radians(m_fov / 2)) * aspect_ratio;
     float y = (1 - 2 * (col + 0.5f) / m_height) * tan(radians(m_fov / 2));
