@@ -20,14 +20,14 @@ void Engine::allocate_image_buffer() {
 
 Vec3f Engine::trace(Ray &ray) { // return RGB triplet
     // test
-    return Vec3f(ray.direction.x() * 255, ray.direction.x() * 255, ray.direction.y() * 255);
+    return Vec3f(ray.direction.x() * 255, ray.direction.y() * 255, ray.direction.z() * 255);
 }
 
-Vec2f Engine::get_pixel_coords(Vec3f camera_pos, int row, int col) const {
+Vec2f Engine::get_pixel_coords(int row, int col) const {
     const float aspect_ratio = static_cast<float>(m_width) / m_height;
     // assume camera is at (0, 0, 0) facing (0, 0, -1), then transform results with world to camera matrix
-    float x = (2 * ((row + 0.5f) / m_width) - 1)  * tan(radians(m_fov / 2)) * aspect_ratio;
-    float y = (1 - 2 * (col + 0.5f) / m_height) * tan(radians(m_fov / 2));
+    float x = (2 * ((col + 0.5f) / m_width) - 1)  * tan(radians(m_fov / 2)) * aspect_ratio;
+    float y = (1 - 2 * (row + 0.5f) / m_height) * tan(radians(m_fov / 2));
     return Vec2f(x, y);
 }
 
@@ -42,7 +42,7 @@ GLubyte* Engine::get_render_data() {
     #pragma omp parallel for collapse(2)
     for (int row = 0; row < m_height; row++) {
         for (int col = 0; col < m_width; col++) {
-            Vec2f pixel_xy = get_pixel_coords(m_camera.position, row, col);
+            Vec2f pixel_xy = get_pixel_coords(row, col);
             Vec3f pixel_coords(
                 pixel_xy.x(),
                 pixel_xy.y(),

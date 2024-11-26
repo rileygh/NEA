@@ -18,7 +18,7 @@ struct Camera {
 class Engine {
     public:
     void allocate_image_buffer();
-    Vec2f get_pixel_coords(Vec3f camera_pos, int row, int col) const;
+    Vec2f get_pixel_coords(int row, int col) const;
     Vec3f trace(Ray &ray);
     GLubyte* get_render_data();
     Matrix44f get_camera_to_world_matrix() const;
