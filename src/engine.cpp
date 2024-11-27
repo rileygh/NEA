@@ -48,7 +48,7 @@ GLubyte* Engine::get_render_data() {
                 pixel_xy.y(),
                 m_camera.position.z() + m_camera.direction.z()
             );
-            Vec3f ray_direction = Vec3f(pixel_coords - m_camera.position).norm();
+            Vec3f ray_direction = (pixel_coords - m_camera.position).norm();
             Ray ray(m_camera.position, ray_direction, PRIMARY);
 
             // #pragma omp critical
