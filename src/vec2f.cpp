@@ -15,9 +15,9 @@ Vec2f Vec2f::operator-(const Vec2f& other) const {
 }
 
 // getters
-float Vec2f::x() const { return coords[0]; }
-float Vec2f::y() const { return coords[1]; }
+float Vec2f::x() const { return m_coords[0]; }
+float Vec2f::y() const { return m_coords[1]; }
 
 // setters
-void Vec2f::set_x(float val) { coords[0] = val; }
-void Vec2f::set_y(float val) { coords[1] = val; }
+void Vec2f::set_x(float val) { m_coords[0] = val; }
+void Vec2f::set_y(float val) { m_coords[1] = val; }

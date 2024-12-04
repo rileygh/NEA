@@ -13,7 +13,7 @@ Matrix44f Matrix44f::inverse() {
     // initialises [M|I]
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
-            aug_left[i][j] = elements[i][j];
+            aug_left[i][j] = m_elements[i][j];
             aug_right[i][j] = identity[i][j];
         }
     }

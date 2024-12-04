@@ -7,8 +7,8 @@
 
 class Vec3f {
     public:  
-    Vec3f() : coords{0, 0, 0} {}; // no args interchangable with Vec3f(0, 0, 0)
-    Vec3f(float x, float y, float z) : coords{x, y, z} {};
+    Vec3f() : m_coords{0, 0, 0} {}; // no args interchangable with Vec3f(0, 0, 0)
+    Vec3f(float x, float y, float z) : m_coords{x, y, z} {};
 
     float mag() const;
     Vec3f norm() const;
@@ -34,7 +34,7 @@ class Vec3f {
     void set_z(float val);
 
     private:
-    float coords[3];
+    float m_coords[3];
 };
 
 #endif

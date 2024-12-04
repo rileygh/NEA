@@ -11,8 +11,8 @@
 #include <tuple>
 
 struct Camera {
-    Vec3f position;
-    Vec3f direction;
+    Vec3f m_position;
+    Vec3f m_direction;
 };
 
 class Engine {

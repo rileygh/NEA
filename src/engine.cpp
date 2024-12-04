@@ -4,7 +4,7 @@
 #include "matrix44f.h"
 #include "ray.h"
 #include "utils.h"
-#include "scene.h"
+#include "mesh.h"
 
 #include <glfw/glfw3.h>
 
@@ -19,8 +19,7 @@ void Engine::allocate_image_buffer() {
 }
 
 Vec3f Engine::trace(Ray &ray) { // return RGB triplet
-    // test
-    return Vec3f(ray.direction.x() * 255, ray.direction.y() * 255, ray.direction.z() * 255);
+    return Vec3f();
 }
 
 Vec2f Engine::get_pixel_coords(int row, int col) const {
@@ -35,9 +34,7 @@ GLubyte* Engine::get_render_data() {
     GLubyte* pixel = m_image_buffer;
 
     Vec3f world_origin(0, 0, 0);
-    Matrix44f world_to_camera = Matrix44f(
-        // TODO: set this
-    );
+    Matrix44f world_to_camera = get_camera_to_world_matrix().inverse();
 
     #pragma omp parallel for collapse(2)
     for (int row = 0; row < m_height; row++) {
@@ -46,10 +43,10 @@ GLubyte* Engine::get_render_data() {
             Vec3f pixel_coords(
                 pixel_xy.x(),
                 pixel_xy.y(),
-                m_camera.position.z() + m_camera.direction.z()
+                m_camera.m_position.z() + m_camera.m_direction.z()
             );
-            Vec3f ray_direction = (pixel_coords - m_camera.position).norm();
-            Ray ray(m_camera.position, ray_direction, PRIMARY);
+            Vec3f ray_direction = (pixel_coords - m_camera.m_position).norm();
+            Ray ray(m_camera.m_position, ray_direction, PRIMARY);
 
             // #pragma omp critical
             // {
@@ -78,11 +75,11 @@ float Engine::get_fov() const { return m_fov; }
 void Engine::set_fov(float fov) { m_fov = fov; }
 void Engine::set_width(int width) { m_width = width; }
 void Engine::set_height(int height) { m_height = height; }
-void Engine::set_camera_pos(Vec3f position) { m_camera.position = position; }
-void Engine::set_camera_dir(Vec3f direction) { m_camera.direction = direction; }
+void Engine::set_camera_pos(Vec3f position) { m_camera.m_position = position; }
+void Engine::set_camera_dir(Vec3f direction) { m_camera.m_direction = direction; }
 
 void Engine::set_defaults() {
     m_fov = 90;
-    m_camera.position = Vec3f();
-    m_camera.direction = Vec3f(0, 0, -1); // begin looking down -z axis
+    m_camera.m_position = Vec3f();
+    m_camera.m_direction = Vec3f(0, 0, -1); // begin looking down -z axis
 }
