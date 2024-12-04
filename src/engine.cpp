@@ -4,7 +4,6 @@
 #include "matrix44f.h"
 #include "ray.h"
 #include "utils.h"
-#include "mesh.h"
 
 #include <glfw/glfw3.h>
 
