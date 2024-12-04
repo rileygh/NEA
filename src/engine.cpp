@@ -24,7 +24,6 @@ Vec3f Engine::trace(Ray &ray) { // return RGB triplet
 
 Vec2f Engine::get_pixel_coords(int row, int col) const {
     const float aspect_ratio = static_cast<float>(m_width) / m_height;
-    // assume camera is at (0, 0, 0) facing (0, 0, -1), then transform results with world to camera matrix
     float x = (2 * ((col + 0.5f) / m_width) - 1)  * tan(radians(m_fov / 2)) * aspect_ratio;
     float y = (1 - 2 * (row + 0.5f) / m_height) * tan(radians(m_fov / 2));
     return Vec2f(x, y);
@@ -39,11 +38,12 @@ GLubyte* Engine::get_render_data() {
     #pragma omp parallel for collapse(2)
     for (int row = 0; row < m_height; row++) {
         for (int col = 0; col < m_width; col++) {
+            // assume camera is at (0, 0, 0) facing (0, 0, -1), then transform results with world to camera matrix
             Vec2f pixel_xy = get_pixel_coords(row, col);
             Vec3f pixel_coords(
                 pixel_xy.x(),
                 pixel_xy.y(),
-                m_camera.m_position.z() + m_camera.m_direction.z()
+                -1
             );
             Vec3f ray_direction = (pixel_coords - m_camera.m_position).norm();
             Ray ray(m_camera.m_position, ray_direction, PRIMARY);
