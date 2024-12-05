@@ -43,11 +43,11 @@ Matrix44f Matrix44f::inverse() {
     // row-reduction of coefficients under the pivot
     for (int col = 0; col < 3; col++) { // loop 3 times as last column has pivot coefficient in bottom row
         for (int row = col + 1; row < 4; row++) {
-            float k = aug_left[row][col] / aug_left[col][col];
+            float k = -(aug_left[row][col] / aug_left[col][col]);
 
             for (int i = 0; i < 4; i++) {
-                aug_left[row][i] -= k * aug_left[col][i];
-                aug_right[row][i] -= k * aug_right[col][i]; // apply same operations
+                aug_left[row][i] += k * aug_left[col][i];
+                aug_right[row][i] += k * aug_right[col][i]; // apply same operations
             }
         }
     }
