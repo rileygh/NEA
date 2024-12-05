@@ -65,11 +65,11 @@ Matrix44f Matrix44f::inverse() {
     // row-reduction of coefficients above the pivot
     for (int row = 0; row < 4; row++) {
         for (int col = row + 1; col < 4; col++) {
-            float k = aug_left[row][col];
+            float k = -(aug_left[row][col]);
             
             for (int i = 0; i < 4; i++) {
-                aug_left[row][i] -= k * aug_left[col][i];
-                aug_right[row][i] -= k * aug_right[col][i];
+                aug_left[row][i] += k * aug_left[col][i];
+                aug_right[row][i] += k * aug_right[col][i];
             }
         }
     }
