@@ -2,34 +2,42 @@
 #define SCENE_H
 
 #include <vector>
+#include <optional>
+#include <memory>
 
 #include "vec3f.h"
 #include "ray.h"
 
 struct HitPayload {
-    Vec3f point, colour;
+    HitPayload(float t, Vec3f colour) : m_t(t), m_colour(colour) {};
+    float m_t;
+    Vec3f m_colour;
 };
 
 class Object {
     public:
-    virtual bool intersects(Ray& ray, float& t1, float& t2);
-    virtual Vec3f normal(); // TODO
+    virtual ~Object();
+    virtual std::optional<HitPayload> intersect(Ray& ray) = 0;
     private:
+};
+
+struct Scene {
+    std::vector<std::shared_ptr<Object>> m_objects;
+
+    void add_object(std::shared_ptr<Object> object);
 };
 
 class Sphere : public Object {
     public:
-    Sphere(int radius, Vec3f centre) : m_radius(radius), m_centre(centre) {};
+    Sphere(float radius, Vec3f centre, Scene& scene) : m_radius(radius), m_centre(centre) {
+        scene.add_object(std::make_shared<Sphere>(*this));
+    };
 
-    bool intersects(Ray& ray, float& t1, float& t2) override;
+    std::optional<HitPayload> intersect(Ray& ray) override;
 
     private:
     float m_radius;
     Vec3f m_centre;
-};
-
-struct Scene {
-    std::vector<Object> objects;
 };
 
 #endif

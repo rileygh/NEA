@@ -10,6 +10,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <tuple>
+#include <variant>
 
 #include <omp.h>
 
@@ -18,7 +19,21 @@ void Engine::allocate_image_buffer() {
 }
 
 Vec3f Engine::trace(Ray &ray) { // return RGB triplet
-    float t1, t2;
+    float closest_hit = std::numeric_limits<float>::max();
+    Vec3f colour;
+
+    for (const auto& object : m_scene->m_objects) {
+        auto result = object->intersect(ray); // polymorphic call
+        if (result) {
+            const HitPayload& hit_payload = *result;
+            if (hit_payload.m_t < closest_hit) {
+                closest_hit = hit_payload.m_t;
+                colour = hit_payload.m_colour;
+            }
+        }
+    }
+
+    return closest_hit < std::numeric_limits<float>::max() ? colour : Vec3f();
 }
 
 Vec2f Engine::get_pixel_coords(int row, int col) const {
@@ -90,6 +105,10 @@ void Engine::set_height(int height) { m_height = height; }
 void Engine::set_camera_pos(Vec3f position) { m_camera.m_position = position; }
 void Engine::set_camera_dir(Vec3f direction) { m_camera.m_direction = direction; }
 void Engine::set_camera_to_world(Matrix44f matrix) { m_camera_to_world = matrix; }
+
+void Engine::set_scene(Scene& scene) {
+    m_scene = &scene;
+}
 
 void Engine::set_defaults() {
     m_fov = 90;

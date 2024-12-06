@@ -4,6 +4,7 @@
 #include "vec3f.h"
 #include "vec2f.h"
 #include "ray.h"
+#include "scene.h"
 
 #include <glfw/glfw3.h>
 
@@ -35,16 +36,17 @@ class Engine {
     void set_camera_dir(Vec3f direction);
     void set_camera_to_world(Matrix44f matrix);
 
+    void set_scene(Scene& scene);
     void set_defaults();
 
     private:
     float m_fov;
     int m_width, m_height;
     Camera m_camera;
-
     Matrix44f m_camera_to_world;
 
     GLubyte* m_image_buffer = nullptr;
+    Scene* m_scene = nullptr;
 
     std::map<Ray, std::tuple<int, int>> m_primary_rays;
 };

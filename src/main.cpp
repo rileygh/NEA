@@ -3,9 +3,11 @@
 #include <imgui/imgui_impl_opengl3.h>
 #include <glfw/glfw3.h>
 #include <iostream>
+
 #include "vec3f.h"
 #include "matrix44f.h"
 #include "engine.h"
+#include "scene.h"
 
 #define WIDTH 960
 #define HEIGHT 540
@@ -35,10 +37,16 @@ int main(int argc, char **argv) {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 460"); // OpenGL v4.6
     
+    Scene scene;
+
+    // test spheres
+    Sphere s(5, Vec3f(0, 0, -10), scene);
+
     Engine engine;
     engine.set_width(WIDTH);
     engine.set_height(HEIGHT);
     engine.allocate_image_buffer();
+    engine.set_scene(scene);
     engine.set_defaults();
 
     while (!glfwWindowShouldClose(window)) {
