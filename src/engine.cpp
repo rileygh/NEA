@@ -18,7 +18,7 @@ void Engine::allocate_image_buffer() {
 }
 
 Vec3f Engine::trace(Ray &ray) { // return RGB triplet
-    return Vec3f();
+    float t1, t2;
 }
 
 Vec2f Engine::get_pixel_coords(int row, int col) const {
@@ -30,9 +30,6 @@ Vec2f Engine::get_pixel_coords(int row, int col) const {
 
 GLubyte* Engine::get_render_data() {
     GLubyte* pixel = m_image_buffer;
-
-    Vec3f world_origin(0, 0, 0);
-    Matrix44f world_to_camera = get_camera_to_world_matrix().inverse();
 
     #pragma omp parallel for collapse(2)
     for (int row = 0; row < m_height; row++) {
@@ -63,19 +60,36 @@ GLubyte* Engine::get_render_data() {
     return m_image_buffer;
 }
 
-Matrix44f Engine::get_camera_to_world_matrix() const {
-    return Matrix44f(
+void Engine::look_at(Vec3f& target) {
+    Vec3f world_up(0, 1, 0);
+    Vec3f forward = (m_camera.m_position - target).norm();
+    Vec3f right = world_up.cross(forward).norm();
+    Vec3f up = forward.cross(right);
+    // don't need to normalise up vector as both inputs are already normalised and the angle will always be 90 degrees
 
+    m_camera_to_world = Matrix44f(
+        right.x(), right.y(), right.z(), 0,
+        up.x(), up.y(), up.z(), 0,
+        forward.x(), forward.y(), forward.z(), 0,
+        m_camera.m_position.x(), m_camera.m_position.y(), m_camera.m_position.z(), 1
     );
 }
 
+void Engine::move(Vec3f& pos) {
+    m_camera_to_world[3][0] = pos.x();
+    m_camera_to_world[3][1] = pos.y();
+    m_camera_to_world[3][2] = pos.z();
+}
+
 float Engine::get_fov() const { return m_fov; }
+Matrix44f Engine::get_camera_to_world() const { return m_camera_to_world; }
 
 void Engine::set_fov(float fov) { m_fov = fov; }
 void Engine::set_width(int width) { m_width = width; }
 void Engine::set_height(int height) { m_height = height; }
 void Engine::set_camera_pos(Vec3f position) { m_camera.m_position = position; }
 void Engine::set_camera_dir(Vec3f direction) { m_camera.m_direction = direction; }
+void Engine::set_camera_to_world(Matrix44f matrix) { m_camera_to_world = matrix; }
 
 void Engine::set_defaults() {
     m_fov = 90;
