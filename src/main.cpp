@@ -40,8 +40,8 @@ int main(int argc, char **argv) {
     Scene scene;
 
     // test spheres
-    Sphere s(5, Vec3f(0, 0, -10), scene);
-
+    Sphere s(5, Vec3f(0, 0, -10), Vec3f(255, 0, 0), scene);
+    
     Engine engine;
     engine.set_width(WIDTH);
     engine.set_height(HEIGHT);
@@ -51,6 +51,18 @@ int main(int argc, char **argv) {
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents(); // listening for events eg. inputs
+
+        // detect input and update camera position
+        Vec3f camera_pos = engine.get_camera_pos();
+        Vec3f camera_dir = engine.get_camera_dir();
+        float movement_speed = engine.get_movement_speed();
+        // forward and backward have backward symbols because of -z facing
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+            engine.set_camera_pos(camera_pos - camera_dir * movement_speed);
+        }
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+            engine.set_camera_pos(camera_pos + camera_dir * movement_speed);
+        }
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();

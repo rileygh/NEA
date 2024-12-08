@@ -39,6 +39,14 @@ Vec3f Vec3f::operator-(const Vec3f& other) const {
     return Vec3f(x() - other.x(), y() - other.y(), z() - other.z());
 }
 
+Vec3f Vec3f::operator+(const Vec3f& other) const {
+    return Vec3f(x() + other.x(), y() + other.y(), z() + other.z());
+}
+
+Vec3f Vec3f::operator*(const float scalar) const {
+    return Vec3f(x() * scalar, y() * scalar, z() * scalar);
+}
+
 Vec3f Vec3f::mult_with_matrix44f(const Matrix44f& matrix) const {
     Vec3f result;
     result.set_x(x() * matrix[0][0] + y() * matrix[1][0] + z() * matrix[2][0] + matrix[3][0]);

@@ -25,11 +25,14 @@ struct Scene {
     std::vector<std::shared_ptr<Object>> m_objects;
 
     void add_object(std::shared_ptr<Object> object);
+
+    // void gen_random_spheres(int num_spheres);
 };
 
 class Sphere : public Object {
     public:
-    Sphere(float radius, Vec3f centre, Scene& scene) : m_radius(radius), m_centre(centre) {
+    Sphere(float radius, Vec3f centre, Vec3f colour, Scene& scene) 
+    : m_radius(radius), m_centre(centre), m_colour(colour) {
         scene.add_object(std::make_shared<Sphere>(*this));
     };
 
@@ -37,7 +40,7 @@ class Sphere : public Object {
 
     private:
     float m_radius;
-    Vec3f m_centre;
+    Vec3f m_centre, m_colour;
 };
 
 #endif

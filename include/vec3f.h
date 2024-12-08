@@ -18,6 +18,8 @@ class Vec3f {
 
     bool operator==(const Vec3f& other) const;
     Vec3f operator-(const Vec3f& other) const;
+    Vec3f operator+(const Vec3f& other) const;
+    Vec3f operator*(const float scalar) const; // multiply by scalar
 
     float dot(const Vec3f& other) const;
     Vec3f cross(const Vec3f& other) const;

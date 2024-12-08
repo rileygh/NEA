@@ -45,6 +45,7 @@ Vec2f Engine::get_pixel_coords(int row, int col) const {
 
 GLubyte* Engine::get_render_data() {
     GLubyte* pixel = m_image_buffer;
+    update_camera_to_world();
 
     #pragma omp parallel for collapse(2)
     for (int row = 0; row < m_height; row++) {
@@ -56,7 +57,11 @@ GLubyte* Engine::get_render_data() {
                 pixel_xy.y(),
                 -1
             );
-            Vec3f ray_direction = (pixel_coords - m_camera.m_position).norm();
+            Vec3f transformed_camera_position = m_camera.m_position.mult_with_matrix44f(m_camera_to_world);
+            Vec3f ray_direction = (pixel_coords - transformed_camera_position)
+            .mult_with_matrix44f(m_camera_to_world)
+            .norm();
+
             Ray ray(m_camera.m_position, ray_direction, PRIMARY);
 
             // #pragma omp critical
@@ -75,9 +80,9 @@ GLubyte* Engine::get_render_data() {
     return m_image_buffer;
 }
 
-void Engine::look_at(Vec3f& target) {
+void Engine::update_camera_to_world() {
     Vec3f world_up(0, 1, 0);
-    Vec3f forward = (m_camera.m_position - target).norm();
+    Vec3f forward = {-m_camera.m_direction.x(), -m_camera.m_direction.y(), -m_camera.m_direction.z()};
     Vec3f right = world_up.cross(forward).norm();
     Vec3f up = forward.cross(right);
     // don't need to normalise up vector as both inputs are already normalised and the angle will always be 90 degrees
@@ -90,28 +95,23 @@ void Engine::look_at(Vec3f& target) {
     );
 }
 
-void Engine::move(Vec3f& pos) {
-    m_camera_to_world[3][0] = pos.x();
-    m_camera_to_world[3][1] = pos.y();
-    m_camera_to_world[3][2] = pos.z();
-}
-
 float Engine::get_fov() const { return m_fov; }
-Matrix44f Engine::get_camera_to_world() const { return m_camera_to_world; }
+Vec3f Engine::get_camera_pos() const { return m_camera.m_position; }
+Vec3f Engine::get_camera_dir() const { return m_camera.m_direction; }
+float Engine::get_movement_speed() const { return m_movement_speed; }
 
 void Engine::set_fov(float fov) { m_fov = fov; }
 void Engine::set_width(int width) { m_width = width; }
 void Engine::set_height(int height) { m_height = height; }
 void Engine::set_camera_pos(Vec3f position) { m_camera.m_position = position; }
 void Engine::set_camera_dir(Vec3f direction) { m_camera.m_direction = direction; }
-void Engine::set_camera_to_world(Matrix44f matrix) { m_camera_to_world = matrix; }
+void Engine::set_movement_speed(float speed) { m_movement_speed = speed; }
 
-void Engine::set_scene(Scene& scene) {
-    m_scene = &scene;
-}
+void Engine::set_scene(Scene& scene) { m_scene = &scene; }
 
 void Engine::set_defaults() {
     m_fov = 90;
     m_camera.m_position = Vec3f();
     m_camera.m_direction = Vec3f(0, 0, -1); // begin looking down -z axis
+    m_movement_speed = 0.1;
 }
