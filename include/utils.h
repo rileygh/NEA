@@ -3,7 +3,7 @@
 
 #define PI 3.14159265
 
-float radians(float degrees) {
+inline float radians(float degrees) {
     return degrees * (PI / 180);
 }
 

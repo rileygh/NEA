@@ -8,6 +8,7 @@
 #include "matrix44f.h"
 #include "engine.h"
 #include "scene.h"
+#include "handler.h"
 
 #define WIDTH 960
 #define HEIGHT 540
@@ -36,10 +37,8 @@ int main(int argc, char **argv) {
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 460"); // OpenGL v4.6
-    
-    Scene scene;
 
-    // test spheres
+    Scene scene;
     Sphere s(5, Vec3f(0, 0, -10), Vec3f(255, 0, 0), scene);
     
     Engine engine;
@@ -49,20 +48,14 @@ int main(int argc, char **argv) {
     engine.set_scene(scene);
     engine.set_defaults();
 
+    Handler handler(window, engine);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents(); // listening for events eg. inputs
 
-        // detect input and update camera position
-        Vec3f camera_pos = engine.get_camera_pos();
-        Vec3f camera_dir = engine.get_camera_dir();
-        float movement_speed = engine.get_movement_speed();
-        // forward and backward have backward symbols because of -z facing
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-            engine.set_camera_pos(camera_pos - camera_dir * movement_speed);
-        }
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-            engine.set_camera_pos(camera_pos + camera_dir * movement_speed);
-        }
+        handler.update_camera_pos();
+        handler.update_camera_dir();
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();

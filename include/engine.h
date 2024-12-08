@@ -20,7 +20,7 @@ class Engine {
     public:
     void allocate_image_buffer();
     Vec2f get_pixel_coords(int row, int col) const;
-    Vec3f trace(Ray &ray);
+    Vec3f trace(Ray& ray);
     GLubyte* get_render_data();
     
     void update_camera_to_world();
@@ -29,6 +29,9 @@ class Engine {
     Vec3f get_camera_pos() const;
     Vec3f get_camera_dir() const;
     float get_movement_speed() const;
+    float get_sensitivity() const;
+    float get_yaw() const;
+    float get_pitch() const;
 
     void set_fov(float fov);
     void set_width(int width);
@@ -36,6 +39,8 @@ class Engine {
     void set_camera_pos(Vec3f position);
     void set_camera_dir(Vec3f direction);
     void set_movement_speed(float speed);
+    void set_yaw(float yaw);
+    void set_pitch(float pitch);
 
     void set_scene(Scene& scene);
     void set_defaults();
@@ -46,6 +51,9 @@ class Engine {
     Camera m_camera;
     
     float m_movement_speed;
+    float m_sensitivity;
+    float m_yaw;
+    float m_pitch;
 
     Matrix44f m_camera_to_world;
 

@@ -1,7 +1,7 @@
 #include "vec2f.h"
 
 // output operator for debug
-std::ostream& operator<<(std::ostream& o, const Vec2f& v) {
+std::ostream &operator<<(std::ostream& o, const Vec2f& v) {
     o << "Vec<" << v.x() << ", " << v.y() << '>';
     return o;
 };

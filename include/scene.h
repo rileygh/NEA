@@ -31,7 +31,7 @@ struct Scene {
 
 class Sphere : public Object {
     public:
-    Sphere(float radius, Vec3f centre, Vec3f colour, Scene& scene) 
+    Sphere(float radius, Vec3f centre, Vec3f colour, Scene &scene) 
     : m_radius(radius), m_centre(centre), m_colour(colour) {
         scene.add_object(std::make_shared<Sphere>(*this));
     };

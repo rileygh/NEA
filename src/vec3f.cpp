@@ -26,7 +26,7 @@ Vec3f Vec3f::norm() const {
 }
 
 // output operator for debug
-std::ostream& operator<<(std::ostream& o, const Vec3f& v) {
+std::ostream &operator<<(std::ostream& o, const Vec3f& v) {
     o << "Vec<" << v.x() << ", " << v.y() << ", " << v.z() << '>';
     return o;
 };
