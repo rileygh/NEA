@@ -45,7 +45,7 @@ Vec2f Engine::get_pixel_coords(int row, int col) const {
 
 GLubyte* Engine::get_render_data() {
     GLubyte* pixel = m_image_buffer;
-    // std::cerr<<m_camera_to_world[3][0]<<' '<<m_camera_to_world[3][1]<<' '<<m_camera_to_world[3][2]<<'\n';
+    std::cerr<<m_camera_to_world;
     update_camera_to_world();
 
     #pragma omp parallel for collapse(2)

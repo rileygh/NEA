@@ -2,6 +2,7 @@
 #define MATRIX44F_H
 
 #include <cstring>
+#include <iostream>
 
 class Matrix44f {
     public:
@@ -19,6 +20,8 @@ class Matrix44f {
     : m_elements{{a, b, c, d}, {e, f, g, h}, {i, j, k, l}, {m, n, o, p}} {};
 
     Matrix44f inverse();
+
+    friend std::ostream& operator<<(std::ostream& o, const Matrix44f& m);
 
     // getter
     const float* operator[](int i) const { return m_elements[i]; }

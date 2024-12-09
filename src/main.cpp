@@ -49,6 +49,8 @@ int main(int argc, char **argv) {
     engine.set_defaults();
 
     Handler handler(window, engine);
+
+    bool cursor_enabled = false;
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     while (!glfwWindowShouldClose(window)) {
@@ -56,6 +58,12 @@ int main(int argc, char **argv) {
 
         handler.update_camera_pos();
         handler.update_camera_dir();
+
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            if (cursor_enabled) { glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); }
+            else { glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); }
+            cursor_enabled = !cursor_enabled;
+        }
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
